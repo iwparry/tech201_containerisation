@@ -96,8 +96,15 @@ We then run the `docker build` command as shown previously, then we can test thi
 We have a working Docker image that we can now push to our repo on DockerHub.
 
 ## Deploying our app via Dockerfile
+Similarly to what we have just done with our web image we can deploy our Nodejs app this time hosted inside a docker container image. An important prerequisite to this is that there is no other existing `Dockerfile` in the same folder, so in our case we created a `nodejs` folder inside our docker folder separate from our first Dockerfile (because we cannot run two Dockerfiles within the same directory) and inside this folder we can create another `Dockerfile` and for our app to work we will need to copy in our `app` folder (the one we used throughout our course).
 
+Once we have satisfied our prerequisites we can write our `Dockerfile` for our Nodejs app.
 
+![](images/dockerfile-nodejs.png)
+
+If everything has been done correctly one we build and run our new image (remember to create a new repo on DockerHub!) we should be able to view our app on our local host on port 3000.
+
+![](images/docker-app.png)
 
 ### Downloading dockers documentation to our localhost
 Docker has provided us with a way to download their entire documentation to our localhost, accessible even if we aren't connected to the internet.
@@ -107,4 +114,3 @@ The command we run to do this is
 docker run -d -p 4000:4000 docs/docker.github.io
 ```
 Now Docker's documentation is available to view on our localhost via port 4000.
-

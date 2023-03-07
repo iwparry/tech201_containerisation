@@ -18,6 +18,7 @@ Docker is a popular tool used by several large companies like Paypal, ADP and Sp
 Docker containers share their operating systemn so they run as isolated processes regardless of the host OS, this means that its containers can run on any computer on any infrastructure and in any cloud. The portability, flexibility and simplicity that this enables is a key reason why Docker is such a powerful tool.
 
 ## Containers vs Virtual Machines (VMs)
+Although there are some some basic similarities, containers are very different from VMs.
 
 # Sources
 https://en.wikipedia.org/wiki/Docker_(software)
