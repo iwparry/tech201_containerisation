@@ -80,6 +80,25 @@ docker build -t iwparry/tech201-nginx:v1 .
 ```
 Where the flag `-t` denotes tag (v1 in this case), and we are building this image in the repository `iwparry/tech201-nginx` with tag `v1` on DockerHub, and this command was ran in the same directory as our Dockerfile.
 
+## Launching our custom Nginx website using Dockerfile
+In our VS Code what we want to do is launch our custom Nginx server using a Dockerfile. To do this we'll create a folder called docker and inside the folder we will create two files. The first will be `index.html` which will contain the content we want displayed on our website.
+
+![](images/index-html.png)
+
+Then we want to create a `Dockerfile` to build our image.
+
+![](images/dockerfile-nginx.png)
+
+We then run the `docker build` command as shown previously, then we can test this on our localhost before pushing to DockerHub (best practice). If we run our new image on port 80 we should see
+
+![](images/docker-iwan-website.png)
+
+We have a working Docker image that we can now push to our repo on DockerHub.
+
+## Deploying our app via Dockerfile
+
+
+
 ### Downloading dockers documentation to our localhost
 Docker has provided us with a way to download their entire documentation to our localhost, accessible even if we aren't connected to the internet.
 
