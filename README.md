@@ -1,5 +1,7 @@
 # Tech 201 Containerisation with Docker
 
+![](images/docker-logo.png)
+
 ## What is Docker?
 Docker is a set of platform as a service products that use OS-level virtualisation to deliver software in packages called containers.
 
@@ -18,11 +20,29 @@ Docker is a popular tool used by several large companies like Paypal, ADP and Sp
 Docker containers share their operating systemn so they run as isolated processes regardless of the host OS, this means that its containers can run on any computer on any infrastructure and in any cloud. The portability, flexibility and simplicity that this enables is a key reason why Docker is such a powerful tool.
 
 ## Containers vs Virtual Machines (VMs)
-Although there are some some basic similarities, containers are very different from VMs.
+Although there are some some basic similarities, containers are very different from VMs. VMs run in a hypervisor environment where each VM must include its own guest OS insider it, along with its related binaries, libraries and application files. This consumes a large amount of system resources and overhead, especially when you have multiple VMs running on the same physical server, each with its own guest OS.
+![](images/container-vs-vm.png)
+In contrast, each container shares the same host OS or system kernel and is much more lightweight. This often means a container may be started much quicker compared to a typical VM. They also reduce the management overhead since they share a common OS, only a single OS needs to be managed.
 
+## Docker Architecture
+![](images/docker-architecture.png)
+
+Docker uses a client-server architecture. The Docker client talks to the Docker daemon, which does the heavy lifting of bulding, running, and distributing your Docker containers. The Docker client and daemon can run on the same system, or you can connect a Docker client to a remote Docker daemon. The Docker client and daemon communicate using a REST API.
+### Docker Daemon
+The Docker daemon listens for Docker API request and manages Docker objects such as images, containers, networks and volumes. A daemon can also communicate with other daemons to manage Docker services.
+### Docker Client
+The Docker client is the primary way that many Docker users interact with Docker. When you use commands such as `docker run`, the client sends these commands to the Docker daemon, which carries them out.
+### Docker Registry
+A Docker registry stores Docker images. Docker Hub is a public registry that anyone can use, and Docker is configured to look for images on Docker Hub by default.
+
+When you use commands such as `docker pull` or `docker run`, the required images are pulled from the Docker registry. When you use the `docker push` command, your image is pushed to the Docker registry.
 # Sources
 https://en.wikipedia.org/wiki/Docker_(software)
 
 https://www.netapp.com/devops-solutions/what-are-containers/#:~:text=Containers%20are%20a%20form%20of,%2C%20libraries%2C%20and%20configuration%20files.
 
 https://apiumhub.com/tech-blog-barcelona/top-benefits-using-docker/
+
+https://www.netapp.com/blog/containers-vs-vms/
+
+https://docs.docker.com/get-started/overview/#:~:text=Docker%20architecture,to%20a%20remote%20Docker%20daemon.
