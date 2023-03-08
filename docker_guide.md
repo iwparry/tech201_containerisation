@@ -7,7 +7,7 @@ This is a guide to using docker
 docker run <image>
 ```
 Will run a docker image. Flags include:
-- `d` - detached, this means we can run the command without holding our browser
+- `d` - detached, this means we can run the command without receiving a log of it being executed
 - `p` - port map, here we map our port
 
 In the example below we run a docker image of an Nginx server on our localhost:
