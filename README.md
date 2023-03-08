@@ -17,10 +17,10 @@ Containers are a form of operating system virtualisation. A single container mig
 
 ## Why use Docker? What are some of the benfits?
 Docker is a popular tool used by several large companies like Paypal, ADP and Spotify, and its adoption by companies continues to grow. Some of the advantages of using Docker includes better return on investment & cost savings, compatibility & maintainability, simplicity, rapid deployment, continuous deployment & testing, multi-cloud platforms and more.
-Docker containers share their operating systemn so they run as isolated processes regardless of the host OS, this means that its containers can run on any computer on any infrastructure and in any cloud. The portability, flexibility and simplicity that this enables is a key reason why Docker is such a powerful tool.
+Docker containers share their operating system so they run as isolated processes regardless of the host OS, this means that its containers can run on any computer on any infrastructure and in any cloud. The portability, flexibility and simplicity that this enables is a key reason why Docker is such a powerful tool.
 
 ## Containers vs Virtual Machines (VMs)
-Although there are some some basic similarities, containers are very different from VMs. VMs run in a hypervisor environment where each VM must include its own guest OS insider it, along with its related binaries, libraries and application files. This consumes a large amount of system resources and overhead, especially when you have multiple VMs running on the same physical server, each with its own guest OS.
+Although there are some some basic similarities, containers are very different from VMs. VMs run in a hypervisor environment where each VM must include its own guest OS inside it, along with its related binaries, libraries and application files. This consumes a large amount of system resources and overhead, especially when you have multiple VMs running on the same physical server, each with its own guest OS.
 ![](images/container-vs-vm.png)
 In contrast, each container shares the same host OS or system kernel and is much more lightweight. This often means a container may be started much quicker compared to a typical VM. They also reduce the management overhead since they share a common OS, only a single OS needs to be managed.
 
