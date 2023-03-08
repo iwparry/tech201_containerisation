@@ -15,6 +15,9 @@ Containers are a form of operating system virtualisation. A single container mig
 - Containers allow applications to be more rapidly deployed, patched or scaled.
 - Containers support agile and DevOps efforts to accelerate development, test, and production cycles.
 
+## What are Microservices
+Simply put a microservice is an independent component of a microservice architecture. We can think of this as being an application with several key components that are independent of eachother meaning that if one of the components is effected in any way this shouldn't impact on the rest of the architecture.
+
 ## Why use Docker? What are some of the benfits?
 Docker is a popular tool used by several large companies like Paypal, ADP and Spotify, and its adoption by companies continues to grow. Some of the advantages of using Docker includes better return on investment & cost savings, compatibility & maintainability, simplicity, rapid deployment, continuous deployment & testing, multi-cloud platforms and more.
 Docker containers share their operating system so they run as isolated processes regardless of the host OS, this means that its containers can run on any computer on any infrastructure and in any cloud. The portability, flexibility and simplicity that this enables is a key reason why Docker is such a powerful tool.
