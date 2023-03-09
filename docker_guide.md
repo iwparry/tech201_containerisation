@@ -1,8 +1,39 @@
 # Docker Guide
 This is a guide to using docker
 
+## Docker Installation
 
-## Dcoker commands
+For  Windows: https://docs.docker.com/desktop/install/windows-install/
+
+### Linux installation for a server (EC2 Instance) on AWS
+If you have an existing older version that you want to remove from your instance.
+```
+sudo apt-get remove docker docker-engine docker.io
+```
+Then run
+```
+curl -fsSL https://get.docker.com -o get-docker.sh
+```
+Then
+```
+sudo sh get-docker.sh
+```
+We can verify that Docker is installed by running
+```
+docker --version
+```
+Then start and enable docker
+```
+sudo systemctl start docker
+```
+```
+sudo systemctl enable docker
+```
+You are now ready to start using docker on your ec2 instance!
+
+NOTE: you may need to use `sudo` at the beginning of each docker command!
+
+## Docker commands
 ```
 docker run <image>
 ```
