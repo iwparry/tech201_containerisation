@@ -31,7 +31,7 @@ sudo systemctl enable docker
 ```
 You are now ready to start using docker on your ec2 instance!
 
-NOTE: you may need to use `sudo` at the beginning of each docker command!
+NOTE: you may need to use `sudo` at the beginning of each docker command! 
 
 ## Docker commands
 ```
@@ -145,3 +145,97 @@ The command we run to do this is
 docker run -d -p 4000:4000 docs/docker.github.io
 ```
 Now Docker's documentation is available to view on our localhost via port 4000.
+
+# Launching an App/Mongo Microservice on AWS using Docker Compose
+
+## What is Docker Compose?
+Dcoker Compose is a tool for defining and running multi-container Docker applications. With Docker Compose we can use a YAML file to configure our app and database and then create and start both containers uing a single command.
+
+```
+docker-compose up
+```
+Note there is the option to use the flag `-d` at the end of the command to run it detached.
+
+Conversely we can stop all the services of our Docker Compose configuration file by running
+```
+docker-compose down
+```
+
+## Writing our docker-compose.yml file
+Below is a snippet of our Docker Compose configuration file that we want to launch both of our app and mongo containers.
+ ![](images/docker-compose.png)
+
+ Each "service" specified in our yml file refers to a container we want to run, thus we have one container for our database `mongo` and another for our `app`. For this task we decided to use mongo's official image, as for the app we used our Dockerfile from a previous task to build the app container.
+
+ Once we are happy that everything works, we can migrate our directory to an EC2 instance on AWS, we did this via the `scp` command. Once everything has been copied to our EC2 instance we need to install Docker (as shown at the start of the guide) once this is done we need to install Docker Compose in our instance with
+ ```
+ sudo apt install docker-compose
+ ```
+
+ Once this is done we can try to launch our containers using
+ ```
+ sudo docker-compose up
+ ```
+Once this has run we can run `sudo docker ps` to check that we have containers running and if so we can check the public IP of our EC2 instance (in this example our IP was 18.203.234.86)
+
+As we can see here our app is working in our EC2 instance
+
+![](images/docker-compose-app.png)
+
+And so is our posts page
+
+![](images/docker-compose-posts.png)
+
+### Potential Blockers
+- Remember to use `sudo` with every command
+
+- I had an error with a line in my app Dockerfile - specifically `COPY app /usr/src/app/` my folder structure in my localhost had my Dockerfile in my app folder (which works fine) but in my EC2 instance it didn't seem to like it and so I took the Dockerfile outside the app to the same folder level as my `docker-compose.yml` and `app` folder and edit both `Dcokerfile` and `docker-compose.yml` accordingly. So our files look like:
+
+
+Dockerfile
+```
+FROM node:12
+# label
+
+# Make a directory
+WORKDIR /app
+# copy data from app folder
+#COPY app /usr/src/app/
+COPY app/package.json .
+
+# install dependencies npm
+RUN npm install
+
+# copy data app folder
+COPY app .
+
+# expose port
+EXPOSE 3000
+
+# execute required command to start the app
+CMD ["npm", "start"]
+```
+and docker-compose.yml
+```
+version: "3"
+services:
+  mongo:
+    image: mongo:4.4
+    container_name: mongo
+    volumes:
+      - ./environment/mongod.conf:/etc/mongod.conf
+    ports:
+      - "27017:27017"
+
+  app:
+    container_name: app
+    restart: always
+    build: .
+    ports:
+      - "80:3000"
+    links:
+      - mongo
+    environment:
+      - DB_HOST=mongodb://mongo:27017/posts
+    command: bash -c "node /app/seeds/seed.js && cd /app && npm start"
+```
