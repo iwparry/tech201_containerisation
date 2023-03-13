@@ -15,6 +15,9 @@ A working Kubernetes deployment is called a cluster. You can visualize a Kuberne
 
 **Cluster**: A Kubernetes cluster is a set of nodes that run containerised applications.
 
+## Benefits of using Kubernetes
+
+
 # Sources
 https://en.wikipedia.org/wiki/Kubernetes
 
