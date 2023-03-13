@@ -16,7 +16,14 @@ A working Kubernetes deployment is called a cluster. You can visualize a Kuberne
 **Cluster**: A Kubernetes cluster is a set of nodes that run containerised applications.
 
 ## Benefits of using Kubernetes
-
+Kubernetes is the fastest growing project in the history of open-source software, after Linux. The increasingly widespread use of Kubernetes among DevOps teams means businesses have a lower learning curve when starting with the platform. Below are some key benefits of Kubernetes giving us insight as to why companies are choosing Kubernetes for all kinds of applications.
+1. Container orchestration savings
+2. Increased DevOps efficiency for microservice architecture
+3. Deploying workloads in multicloud environments
+4. More portability with less chance of vendor lock-in
+5. Automation of deployment and scalability
+6. App stability and availability in a cloud environment
+7. Open-source and community-led
 
 # Sources
 https://en.wikipedia.org/wiki/Kubernetes
@@ -26,3 +33,5 @@ https://www.vmware.com/topics/glossary/content/kubernetes-architecture.html#:~:t
 https://www.redhat.com/en/topics/containers/kubernetes-architecture
 
 https://kubernetes.io/docs/concepts/overview/components/
+
+https://www.ibm.com/cloud/blog/top-7-benefits-of-kubernetes
