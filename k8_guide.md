@@ -142,3 +142,174 @@ csistoragecapacities                           storage.k8s.io/v1                
 storageclasses                    sc           storage.k8s.io/v1                      false        StorageClass
 volumeattachments                              storage.k8s.io/v1                      false        VolumeAttachment
 ```
+
+### Creating a deployment with K8
+We can create a K8 deployment with the following command
+```
+kubectl create -f deployfile.yml
+```
+
+Once this has been run we can check that out deployment has been run successfully with the following commands.
+
+```
+kubectl get deploy
+```
+This will show us our deployments and give details such as how many replicas
+
+We can also check our pods with
+```
+kubectl get pods
+```
+
+We can check everything we have running with k8s with the command
+```
+kubectl get all
+```
+This will get pods, deployment, services etc.
+
+We can also delete these objects but we will have do define the object that we wish to delete along with its name
+```
+kubectl delete <object> <object-name>
+```
+- Here object can be `deploy`, `svc`, `pod` etc.
+- Then we need to provide the specific name of the object in question, which we can get by running `kubectl get <object>` to view a list of what we have running for that type of object.
+
+## Nodejs and MongoDB Deployments with K8s
+Now that we are using Kubernetes lets create deployments for our app and database!
+
+We are going to write a deployment file each for node and mongo, we also are going to write a service file each node and mongo. All these files will be written in YAML.
+
+![](images/node-deploy-file-struct.png)
+
+Note it is possible to put everything into a single file (separate each file with `---` because YAML) but for clarity we will have a file for each deployment and service.
+
+Below we have a diagram of what we are trying to create
+
+![](images/node-mongo-cluster.png)
+
+The main components we have touched on so far are the Deployments and Services. 
+
+A **Deployment** is a resource object in K8s that provides declaritive updates to applications. This allows you to describe an application's life cycle, such as which images to use for the app, the number of pods there should be, and the way in which they should be updated.
+
+A **Service** in K8s is a method for enabling network access to a set of pods in K8s.
+
+Some of the other compontents we should touch on are:
+
+**Labels** are key/value pairs that are attached to objects to be identified, such as pods.
+
+**Selector** help us in finding items that have been labelled.
+
+**Pods** are the smallest deployable units of computing that you can create and manage in K8s. These encapsulate one or more containerised applications.
+
+**ReplicaSet** is a K8s object used to maintain a stable set of replicated pods running within a cluster at any given time.
+
+Now that we have touched on the specific components of our cluster we can move on to look at the YAML files we used in creating our Node/Mongo deployment.
+### node-deployment.yml
+```yml
+apiVersion: apps/v1         # which api to use for deployment
+kind: Deployment            # what kind of object you want to create
+
+metadata:
+  name: node-deployment # naming the object
+spec:
+  selector:
+    matchLabels:
+      app: node          # label to be identified by k8s service
+  replicas: 3            # Create replicas of this with pods
+
+  template:
+    metadata:
+      labels:
+        app: node        # This label connects to the service or any other 
+                         # k8 components
+
+    # Lets define container specifications
+    spec:
+      containers:
+      - name: node
+        image: iwparry/tech201-nodejs:v1 # using a Node image we pushed 
+                                         # to our DockerHub
+        ports:
+        - containerPort: 3000    # port for our app
+
+        env:         # our environment variable to connect to DB
+        - name: DB_HOST
+          value: mongodb://mongo:27017/posts
+        lifecycle:
+          postStart:
+            exec:
+              command: ["node", "seeds/seed.js"]  # commands to seed our DB
+```
+### node-service.yml
+```yml
+apiVersion: v1 
+kind: Service 
+
+metadata:
+  name: node-svc
+  namespace: default   # Namespaces in K8s provides the scope for Pods, Services, and Deployments in the cluster
+spec:
+  ports:
+  - nodePort: 30002 # The port on each node on which the service is exposed to
+    port: 3000
+
+    targetPort: 3000
+  selector:
+    app: node
+  
+  type: NodePort
+```
+Our `mongo-deploy.yml` and `mongo-service.yml` will look similar as seen below
+### mongo-deploy.yml
+```yml
+apiVersion: apps/v1 
+kind: Deployment 
+
+metadata:
+  name: mongo
+spec:
+  selector:
+    matchLabels:
+      app: mongo #  look for this label to match with k8 service
+  replicas: 3 # Create replicas of this with pods
+
+  template:
+    metadata:
+      labels:
+        app: mongo
+
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:4.4 # using official mongo image (version 4.4)
+        ports:
+        - containerPort: 27017
+```
+### mongo-service.yml
+```yml
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: mongo
+spec:
+  selector:
+    app: mongo
+  ports:
+  - port: 27017
+    targetPort: 27017
+```
+Because everything is running withing the same cluster we do not need to edit a mongod.conf file as we have been doing with other tasks, thus our db should be accessible via our app through the environment variable.
+
+So with everything written we can create all this. To have everything work properly I created the mongo deployment and service first and then the app.
+
+We run the files via
+```
+kubectl create -f <filename>.yml
+```
+We can then check everything we have running with `kubectl get all`
+
+Once all is running we check our localhost on port `30002`
+
+![](images/k8-cluster-app.png)
+
+![](images/k8-cluster-db.png)
