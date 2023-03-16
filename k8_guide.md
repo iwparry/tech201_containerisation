@@ -313,3 +313,11 @@ Once all is running we check our localhost on port `30002`
 ![](images/k8-cluster-app.png)
 
 ![](images/k8-cluster-db.png)
+
+## K8s Nodejs & MongoDB Deployment on AWS
+
+Plan:
+1. Create an EC2 Instance on AWS
+2. Set up dependencies in EC2 Instance i.e. install docker and k8s
+3. Set up our K8s Cluster
+4. Create Node and Mongo deployments and services inside our EC2 Instances along with a hpa for Mongo  
