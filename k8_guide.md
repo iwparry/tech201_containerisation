@@ -318,6 +318,106 @@ Once all is running we check our localhost on port `30002`
 
 Plan:
 1. Create an EC2 Instance on AWS
-2. Set up dependencies in EC2 Instance i.e. install docker and k8s
+2. Set up dependencies in EC2 Instance i.e. install docker, kubectl, minikube
 3. Set up our K8s Cluster
 4. Create Node and Mongo deployments and services inside our EC2 Instances along with a hpa for Mongo  
+
+### 1. Create an EC2 Instance
+We create an EC2 Instance in our AWS Console (launch a t2.medium instance)
+
+### 2. Set up dependencies
+Once we create our instance we will SSH in (ensure that security group is set to allow SSH access) and begin setting up our instance.
+
+# K8s Cluster Installation process in AWS EC2 Instaces
+First we launch an EC2 Instance as we would do usually but with Instance type t2.medium (or larger). Set securoty group rules accordingly, allow SSH (22), HTTP (80) and HTTPS (443) access from the internet and add any other inbound rules you require.
+
+Once created we SSH into the Instance and install Docker, then minikube, then kubectl.
+
+The reason we are going with minikube as opposed to kubeadm for this task is because we are only trying to deploy a standalone K8s cluster, which minikube is a good fit for as it is used primarily for learning and exploration of K8s. Kubeadm on the otehrhand is more suitable for launching a production-grade K8s cluster which involves creating a master node and one or more worker nodes.
+
+## Install Docker
+Following instructions from https://docs.docker.com/engine/install/ubuntu/ we are going to setup and install Docker Engine from Docker's `apt` repository.
+
+### Set up the repo
+1. Update the apt package index and install packages to allow apt to use a repository over HTTPS:
+```
+sudo apt-get update
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+```
+2. Add Docker’s official GPG key:
+```
+sudo mkdir -m 0755 -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg--dearmor -o /etc/apt/keyrings/docker.gpg
+```
+3. Set up the repository
+```
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+### Install Docker Engine
+1. Update the `apt` package
+```
+sudo apt-get update
+```
+NOTE: If you get an error whilst doing this, try run these commands:
+```
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+sudo apt-get update
+```
+2. Install Docker Engine, containerd and Docker Compose
+```
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+3. Verify that the Docker Engine installation is successful by running the hello-world image
+```
+sudo docker run hello-world
+```
+## Install Minikube
+Following instructions from https://minikube.sigs.k8s.io/docs/start/ we run these commands to install Minikube:
+```
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+Ensure that you have correctly specified your target platform when you run this.
+
+If everything has been done correctly we can start our cluster with 
+```
+minikube start
+```
+NOTE: If you have permission issues try running:
+```
+sudo usermod -aG docker $USER && newgrp docker
+```
+
+## Install kubectl
+Following instructions from https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+### Install kubectl binary with curl
+1. Download the latest release
+```
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+```
+2. Install kubectl
+```
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```
+NOTE: If you're having permissions issues, try running the following:
+```
+chmod +x kubectl
+mkdir -p ~/.local/bin
+mv ./kubectl ~/.local/bin/kubectl
+```
+3. Verify that kubectl is installed
+```
+kubectl version --client
+```
+
+We can check that our Cluster is running via:
+```
+kubectl cluster-info
+```
