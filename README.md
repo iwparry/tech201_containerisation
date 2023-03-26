@@ -22,6 +22,9 @@ A microservice architecture is an architectural pattern that arranges an applica
 Microervices architectures make applications easier to scale and faster to develop, enabling innovation and accelerating time-to-market for new features.
 
 ### Monolithic vs Microservices Architecture
+
+![](images/molonlith-vs-microservice.png)
+
 With monolithic architectures, all processes are tightly coupled and run as a single service (i.e. everything is bunched into a single unit). This has several disadvantages, such as having a single point of failure, and difficulty to scale because its components are all dependent.
 
 With microservices architecture, an application is built as independent components that run each application process as a service and communicate with eachother via a well-defined interface using lightweight APIs. Because each component of a microservices architecture runs independently, they can be easily updated, deployed and scaled without impacting other components of the architecture.
