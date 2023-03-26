@@ -19,6 +19,31 @@ Containers are a form of operating system virtualisation. A single container mig
 Simply put a microservice is an independent component of a microservice architecture. 
 A microservice architecture is an architectural pattern that arranges an application as a collection of loosely coupled, fine-grained services, communicating through lightweight protocols.
 
+Microervices architectures make applications easier to scale and faster to develop, enabling innovation and accelerating time-to-market for new features.
+
+### Monolithic vs Microservices Architecture
+With monolithic architectures, all processes are tightly coupled and run as a single service (i.e. everything is bunched into a single unit). This has several disadvantages, such as having a single point of failure, and difficulty to scale because its components are all dependent.
+
+With microservices architecture, an application is built as independent components that run each application process as a service and communicate with eachother via a well-defined interface using lightweight APIs. Because each component of a microservices architecture runs independently, they can be easily updated, deployed and scaled without impacting other components of the architecture.
+
+### Characteristics of Microservices
+**Autonomous**:
+- Each component service can be developed, deployed, operated and scaled without affecting the functioning of other services
+- Services do not need to share any of their code or implementation with other services
+- Communication between individual components happens via well-defined APIs
+
+**Specialised**
+- Each service is defined for a set of capabilities and focuses on solving specific problems
+- Services can be broken down into smaller services if the service becomes more complex over time
+
+### Benefits of Microservices
+- Agility
+- Flexible scaling
+- Easy deployment
+- Technological Freedom
+- Reusable code
+- Resilience
+
 ## Why use Docker? What are some of the benfits?
 Docker is a popular tool used by several large companies like Paypal, ADP and Spotify, and its adoption by companies continues to grow. Some of the advantages of using Docker includes better return on investment & cost savings, compatibility & maintainability, simplicity, rapid deployment, continuous deployment & testing, multi-cloud platforms and more.
 Docker containers share their operating system so they run as isolated processes regardless of the host OS, this means that its containers can run on any computer on any infrastructure and in any cloud. The portability, flexibility and simplicity that this enables is a key reason why Docker is such a powerful tool.
@@ -52,3 +77,5 @@ https://www.netapp.com/blog/containers-vs-vms/
 https://docs.docker.com/get-started/overview/#:~:text=Docker%20architecture,to%20a%20remote%20Docker%20daemon.
 
 https://en.wikipedia.org/wiki/Microservices
+
+https://aws.amazon.com/microservices/#:~:text=Microservices%20are%20an%20architectural%20and,small%2C%20self%2Dcontained%20teams.
